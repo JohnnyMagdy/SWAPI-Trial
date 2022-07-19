@@ -21,7 +21,7 @@ export type Person = {
 
 let people: Person[][];
 
-export class PersonStore {
+export class PersonController {
     async index(): Promise<Person[][]> {
         try {
             people = await PopulatePeople();

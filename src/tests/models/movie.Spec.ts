@@ -1,26 +1,44 @@
-import { Movie, MovieStore } from '../../models/movie';
+import { Movie, MovieController } from '../../models/movie';
 
-const store = new MovieStore();
+const controller = new MovieController();
 
 describe('Test movie functions.', () => {
     it('It checks if index function exists.', async () => {
-        expect(await store.index()).toBeDefined();
+        expect(await controller.index()).toBeDefined();
     });
     it('It checks if detail function exists.', async () => {
-        expect(await store.detail(1)).toBeDefined();
+        expect(await controller.detail(1)).toBeDefined();
     });
-    it('It expects index to return a value.', async () => {
-        expect(await store.index()).toBeTruthy();
+    
+    it('It expects index function to return all movies data.', async () => {
+        //Arrange
+        let movies = await controller.index();
+
+        console.log(movies)
+        //Act
+        if(typeof movies == 'string'){
+            movies = [];
+        }
+
+        //Assert
+        expect(movies.length).toBeGreaterThan(0);
     });
-    it('It expects detail to return a value.', async () => {
-        expect(await store.detail(1)).toBeTruthy();
+    it("It expects detail function to return a specific movie --SUCCESS", async () => {
+        //Arrange
+        let movie = await controller.detail(1)
+
+        //Act
+        
+        //Assert
+        expect(typeof movie).not.toEqual('string');
     });
-    it('It expects index to return all movies data and the title of the first one is (A New Hope).', async () => {
-        const movies = await store.index();
-        const PersonName = movies[0].title;
-        expect(PersonName).toEqual('A New Hope');
-    });
-    it("It expects detail to return a specific movie and it's title is (A New Hope).", async () => {
-        expect((await store.detail(1)).title).toEqual('A New Hope');
+    it("It expects detail function to return a specific movie --FAIL", async () => {
+        //Arrange
+        let movie = await controller.detail(10)
+
+        //Act
+        
+        //Assert
+        expect(typeof movie).toEqual('string');
     });
 });

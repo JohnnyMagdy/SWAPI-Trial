@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
-import { Movie, MovieStore } from '../models/movie';
+import { Movie, MovieController } from '../models/movie';
 
-const store = new MovieStore();
+const store = new MovieController();
 
 const index = async (_req: Request, res: Response) => {
-    let movies:Movie[] = await store.index();
-    
+    let movies: Movie[] | string = await store.index();
+
     res.json(movies);
 }
 
 const detail = async (req: Request, res: Response) => {
-    let movie:Movie = await store.detail(parseInt(req.params.id));
+    let movie: Movie | string = await store.detail(parseInt(req.params.id));
 
     res.json(movie);
 }
